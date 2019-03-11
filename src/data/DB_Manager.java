@@ -15,7 +15,6 @@ public class DB_Manager
     public DB_Manager() 
     { 
         con = null;
-        System.out.println("test");
     }
     
     private void connect()
