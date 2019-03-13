@@ -282,9 +282,11 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(RemoveMenu);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/charge.png"))); // NOI18N
         jMenu3.setText("ΧΡΕΩΣΗ");
         MenuBar.add(jMenu3);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/return.png"))); // NOI18N
         jMenu4.setText("ΕΠΙΣΤΡΟΦΗ");
         MenuBar.add(jMenu4);
 

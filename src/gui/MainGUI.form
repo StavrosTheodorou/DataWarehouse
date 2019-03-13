@@ -310,11 +310,17 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/charge.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x3a7;&#x3a1;&#x395;&#x3a9;&#x3a3;&#x397;"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu4">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/return.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x395;&#x3a0;&#x399;&#x3a3;&#x3a4;&#x3a1;&#x39f;&#x3a6;&#x397;"/>
           </Properties>
         </Menu>
