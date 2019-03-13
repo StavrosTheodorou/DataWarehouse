@@ -8,16 +8,20 @@ package gui;
 import data.Barcode;
 import data.DB_Manager;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -33,7 +37,10 @@ public class MainGUI extends javax.swing.JFrame {
         try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e) { e.printStackTrace(); }
         initComponents();
         setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        initJTable();
+        refreshJTable();
     }
 
     /**
@@ -65,12 +72,12 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         InfoObsTB = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        InfoOwnerTB = new javax.swing.JTextField();
+        InfoHolderTB = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         MaterialsTBL = new javax.swing.JTable();
         MenuBar = new javax.swing.JMenuBar();
         AddMenu = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        RemoveMenu = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
 
@@ -135,7 +142,7 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("ΚΑΤΟΧΟΣ");
 
-        InfoOwnerTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoHolderTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout InfoFrameLayout = new javax.swing.GroupLayout(InfoFrame.getContentPane());
         InfoFrame.getContentPane().setLayout(InfoFrameLayout);
@@ -180,7 +187,7 @@ public class MainGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, InfoFrameLayout.createSequentialGroup()
                         .addComponent(InfoObsTB, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(InfoOwnerTB)))
+                        .addComponent(InfoHolderTB)))
                 .addContainerGap())
         );
         InfoFrameLayout.setVerticalGroup(
@@ -197,7 +204,7 @@ public class MainGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(InfoFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InfoObsTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(InfoOwnerTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(InfoHolderTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(InfoFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -214,12 +221,12 @@ public class MainGUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(InfoFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PrinterBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BarcodeLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BarcodeTB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BarcodeTB)
+                    .addComponent(PrinterBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(InfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -231,7 +238,7 @@ public class MainGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ΑΑ", "Αριθμός Μερίδας", "Αριθμός Ονόματος", "Περιγραφή", "Μονάδα Μέτρησης", "Ποσότητα", "Κάτοχος", "Παρατηρήσεις", "Barcode"
+                "ΑΑ", "Αρ. Μερίδας", "Αρ. Ονόματος", "Περιγραφή", "Μον. Μέτρησης", "Ποσότητα", "Κάτοχος", "Παρατηρήσεις", "Barcode"
             }
         ) {
             Class[] types = new Class [] {
@@ -266,8 +273,14 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(AddMenu);
 
-        jMenu2.setText("ΑΦΑΙΡΕΣΗ");
-        MenuBar.add(jMenu2);
+        RemoveMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/remove.png"))); // NOI18N
+        RemoveMenu.setText("ΑΦΑΙΡΕΣΗ");
+        RemoveMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RemoveMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(RemoveMenu);
 
         jMenu3.setText("ΧΡΕΩΣΗ");
         MenuBar.add(jMenu3);
@@ -298,19 +311,16 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMenuMouseClicked
-        //Init Info Frame 
-        InfoFrame.setPreferredSize(new Dimension(500, 395));
-        InfoFrame.pack();
-        InfoFrame.setLocationRelativeTo(null);
-        InfoFrame.setVisible(true);
+        
+        initInfoFrame();
         
         //Init Info Components
         InfoFrame.setTitle("ΠΡΟΣΘΗΚΗ ΥΛΙΚΟΥ");
         InfoButton.setText("ΠΡΟΣΘΗΚΗ");
         InfoDescTA.setText("");
         InfoDescTA.setEditable(true);
-        InfoOwnerTB.setText("ΑΠΟΘΗΚΗ");
-        InfoOwnerTB.setEditable(false);
+        InfoHolderTB.setText("ΑΠΟΘΗΚΗ");
+        InfoHolderTB.setEditable(false);
         InfoObsTB.setText("");
         InfoObsTB.setEditable(true);
         InfoSerialTB.setText("");
@@ -333,28 +343,46 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_AddMenuMouseClicked
 
     private void InfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoButtonActionPerformed
-        if (InfoButton.getText().equals("ΠΡΟΣΘΗΚΗ"))
+        
+        try
         {
-            int new_aa = (int) dbm.Function("MAX", "materials", "aa", "") + 1;
-            
-            String values = 
-            new_aa + ", " + 
-            Integer.parseInt(InfoMeridTB.getText()) + ", " +
-            "'" + InfoSerialTB.getText() + "', " +
-            "'" + InfoDescTA.getText() + "', " +
-            "'" + InfoCountTB.getText() + "', " +
-            InfoCountSP.getValue() + ", " +
-            "'ΑΠΟΘΗΚΗ', " +
-            "'" + InfoObsTB.getText() + "', " +
-            "'" + BarcodeTB.getText() + "'";
-            
-            dbm.Insert("materials", values);
-            
+            if (InfoButton.getText().equals("ΠΡΟΣΘΗΚΗ"))
+            {
+                int new_aa = (int) dbm.Function("MAX", "materials", "aa", "") + 1;
+
+                String values = 
+                new_aa + ", " + 
+                Integer.parseInt(InfoMeridTB.getText()) + ", " +
+                "'" + InfoSerialTB.getText() + "', " +
+                "'" + InfoDescTA.getText() + "', " +
+                "'" + InfoCountTB.getText() + "', " +
+                InfoCountSP.getValue() + ", " +
+                "'ΑΠΟΘΗΚΗ', " +
+                "'" + InfoObsTB.getText() + "', " +
+                "'" + BarcodeTB.getText() + "'";
+
+                dbm.Insert("materials", values);
+            }
+            else
+            {
+                dbm.Update("materials", "arithMerid", InfoMeridTB.getText(), "barcode = " + BarcodeTB.getText());
+                dbm.Update("materials", "arithOnom", "'" + InfoSerialTB.getText() + "'", "barcode = " + BarcodeTB.getText());
+                dbm.Update("materials", "perigrafiIdwn", "'" + InfoDescTA.getText() + "'", "barcode = " + BarcodeTB.getText());
+                dbm.Update("materials", "monMetr", "'" + InfoCountTB.getText() + "'", "barcode = " + BarcodeTB.getText());
+                dbm.Update("materials", "paratiriseis", "'" + InfoObsTB.getText() + "'", "barcode = " + BarcodeTB.getText() + " AND io = '" + InfoHolderTB.getText() + "'");
+                if (InfoCountSP.isEnabled())
+                    dbm.Update("materials", "posotita", InfoCountSP.getValue().toString(), "barcode = " + BarcodeTB.getText() + " AND io = '" + InfoHolderTB.getText() + "'");
+            }
+           
+            InfoFrame.setVisible(false);    
             refreshJTable();
+            JOptionPane.showMessageDialog(this, "Η διαδικασία ολοκληρώθηκε επιτυχώς.", InfoFrame.getTitle(), JOptionPane.INFORMATION_MESSAGE);
         }
-        else
+        catch(Exception e)
         {
+            InfoFrame.setVisible(false);
             
+            JOptionPane.showMessageDialog(this, "Προέκυψε σφάλμα κατά την εκτέλεση της διαδικασίας.", InfoFrame.getTitle(), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_InfoButtonActionPerformed
 
@@ -364,20 +392,18 @@ public class MainGUI extends javax.swing.JFrame {
             evt.consume();
             
             int row = MaterialsTBL.getSelectedRow();
-                  
-            //Init Info Frame 
-            InfoFrame.setPreferredSize(new Dimension(500, 395));
-            InfoFrame.pack();
-            InfoFrame.setLocationRelativeTo(null);
-            InfoFrame.setVisible(true);
+            
+            boolean inWarehouse = MaterialsTBL.getModel().getValueAt(row, 6).toString().equals("ΑΠΟΘΗΚΗ");
+            
+            initInfoFrame();
 
             //Init Info Components
             InfoFrame.setTitle("ΕΠΕΞΕΡΓΑΣΙΑ ΥΛΙΚΟΥ");
             InfoButton.setText("ΕΠΕΞΕΡΓΑΣΙΑ");
             InfoDescTA.setText(MaterialsTBL.getModel().getValueAt(row, 3).toString());
             InfoDescTA.setEditable(true);
-            InfoOwnerTB.setText(MaterialsTBL.getModel().getValueAt(row, 6).toString());
-            InfoOwnerTB.setEditable(false);
+            InfoHolderTB.setText(MaterialsTBL.getModel().getValueAt(row, 6).toString());
+            InfoHolderTB.setEditable(false);
             String tmp;
             try { tmp = MaterialsTBL.getModel().getValueAt(row, 7).toString(); }
             catch(Exception e) { tmp = ""; }
@@ -390,9 +416,40 @@ public class MainGUI extends javax.swing.JFrame {
             InfoCountTB.setText(MaterialsTBL.getModel().getValueAt(row, 4).toString());
             InfoCountTB.setEditable(true);
             InfoCountSP.setValue(Integer.parseInt(MaterialsTBL.getModel().getValueAt(row, 5).toString()));
+            InfoCountSP.setEnabled(inWarehouse);
             ((DefaultEditor) InfoCountSP.getEditor()).getTextField().setEditable(false);
+            
+            Barcode bc = new Barcode(MaterialsTBL.getModel().getValueAt(row, 8).toString());
+            
+            BarcodeTB.setText(bc.toString());
+            BarcodeLBL.setIcon(new ImageIcon(bc.getImg()));
         }
     }//GEN-LAST:event_MaterialsTBLMouseClicked
+
+    private void RemoveMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoveMenuMouseClicked
+        int row = MaterialsTBL.getSelectedRow();
+        
+        if (row < 0) 
+        {
+            JOptionPane.showMessageDialog(this, "Δεν βρέθηκε επιλεγμένη γραμμή της βάσης προς αφαίρεση.", "ΑΦΑΙΡΕΣΗ ΥΛΙΚΟΥ", JOptionPane.WARNING_MESSAGE);
+            return;
+        } 
+        if (!MaterialsTBL.getModel().getValueAt(row, 6).toString().equals("ΑΠΟΘΗΚΗ"))
+        {
+            JOptionPane.showMessageDialog(this, "Δεν είναι δυνατή η αφαίρεση χρεώσεων αλλά μόνο η επιστροφή τους.", "ΑΦΑΙΡΕΣΗ ΥΛΙΚΟΥ", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if ((int)dbm.Function("COUNT", "materials", "barcode", "barcode = " + MaterialsTBL.getModel().getValueAt(row, 8).toString()) > 1)
+        {
+            JOptionPane.showMessageDialog(this, "Δεν είναι δυνατή η αφαίρεση υλικών με ενεργές χρεώσεις.", "ΑΦΑΙΡΕΣΗ ΥΛΙΚΟΥ", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+            
+        dbm.Delete("materials", "barcode = " + MaterialsTBL.getModel().getValueAt(row, 8).toString() + " AND io = 'ΑΠΟΘΗΚΗ'");
+        dbm.Update("materials", "aa", "aa - 1", "aa > " + MaterialsTBL.getModel().getValueAt(row, 0).toString());
+        refreshJTable();
+        JOptionPane.showMessageDialog(this, "Η διαδικασία ολοκληρώθηκε επιτυχώς.", "ΑΦΑΙΡΕΣΗ ΥΛΙΚΟΥ", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_RemoveMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -426,14 +483,11 @@ public class MainGUI extends javax.swing.JFrame {
             public void run() 
             {
                 new MainGUI().setVisible(true);
-                
-                initJTable();
-                refreshJTable();
             }
         });
     }
     
-    private static void initJTable()
+    private void initJTable()
     {                
         MaterialsTBL.setRowHeight(60);
         MaterialsTBL.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -444,7 +498,15 @@ public class MainGUI extends javax.swing.JFrame {
         renderer.setHorizontalAlignment(JLabel.CENTER);
     }
     
-    private static void refreshJTable()
+    private void initInfoFrame()
+    {
+        InfoFrame.setPreferredSize(new Dimension(500, 427));
+        InfoFrame.pack();
+        InfoFrame.setLocationRelativeTo(null);
+        InfoFrame.setVisible(true);
+    }
+    
+    private void refreshJTable()
     {        
         ArrayList<Object[]> selectionList = dbm.Select("*", "materials", "");
         
@@ -452,11 +514,32 @@ public class MainGUI extends javax.swing.JFrame {
         
         int rows = model.getRowCount();
         
-        System.out.println(rows);
-        
         for (int i = 0; i < rows; i++) model.removeRow(0);
         
-        for (int i = 0; i < selectionList.size(); i++) model.addRow(selectionList.get(i)); 
+        for (int i = 0; i < selectionList.size(); i++) model.addRow(selectionList.get(i));
+        
+        resizeJTable();
+    }
+    
+    private void resizeJTable()
+    {
+        final TableColumnModel columnModel = MaterialsTBL.getColumnModel();
+        
+        for (int column = 0; column < MaterialsTBL.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            
+            for (int row = 0; row < MaterialsTBL.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = MaterialsTBL.getCellRenderer(row, column);
+                Component comp = MaterialsTBL.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            
+            if(width > 300) width=300;
+            
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
 
     private static DB_Manager dbm = new DB_Manager();
@@ -469,13 +552,14 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JTextField InfoCountTB;
     private javax.swing.JTextArea InfoDescTA;
     private javax.swing.JFrame InfoFrame;
+    private javax.swing.JTextField InfoHolderTB;
     private javax.swing.JTextField InfoMeridTB;
     private javax.swing.JTextField InfoObsTB;
-    private javax.swing.JTextField InfoOwnerTB;
     private javax.swing.JTextField InfoSerialTB;
-    private static javax.swing.JTable MaterialsTBL;
+    private javax.swing.JTable MaterialsTBL;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JButton PrinterBTN;
+    private javax.swing.JMenu RemoveMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -484,7 +568,6 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JScrollPane jScrollPane1;
