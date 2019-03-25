@@ -7,14 +7,20 @@ package gui;
 
 import data.Barcode;
 import data.DB_Manager;
+import data.PrintActionListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -107,16 +113,46 @@ public class MainGUI extends javax.swing.JFrame {
         ChargeCB = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        ChargeHolderTB = new javax.swing.JTextField();
+        ChargeGiverTB = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         RenewBTN1 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        ChargeHolderTB = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        ChargeDateTB = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        ChargeTitleTB = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        ChargeOrderTB = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        ChargeFilenameTB = new javax.swing.JTextField();
+        ReturnFrame = new javax.swing.JFrame();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        ReturnBTN = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
+        InfoCountTB3 = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        InfoMeridTB3 = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        RenewBTN3 = new javax.swing.JButton();
+        InfoObsTB3 = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        InfoSerialTB3 = new javax.swing.JTextField();
+        BarcodeScanTB2 = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        InfoDescTA3 = new javax.swing.JTextArea();
+        ReturnHolderCB = new javax.swing.JComboBox<>();
+        ReturnCountTB = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         MaterialsTBL = new javax.swing.JTable();
         MenuBar = new javax.swing.JMenuBar();
         AddMenu = new javax.swing.JMenu();
         RemoveMenu = new javax.swing.JMenu();
         ChargeMenu = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        ReturnMenu = new javax.swing.JMenu();
 
         InfoFrame.setResizable(false);
 
@@ -169,7 +205,12 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        PrinterBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        PrinterBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/print.png"))); // NOI18N
+        PrinterBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrinterBTNActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("ΠΑΡΑΤΗΡΗΣΕΙΣ");
@@ -257,14 +298,17 @@ public class MainGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(InfoFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BarcodeLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(InfoFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BarcodeTB)
-                    .addComponent(PrinterBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(PrinterBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                    .addComponent(BarcodeLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(InfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        ChargeFrame.setTitle("ΧΡΕΩΣΗ ΥΛΙΚΩΝ");
+        ChargeFrame.setResizable(false);
 
         jTabbedPane1.setFocusable(false);
 
@@ -324,7 +368,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         BarcodeScanTB.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         BarcodeScanTB.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        BarcodeScanTB.setText("11111111");
         BarcodeScanTB.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         BarcodeScanTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -372,7 +415,7 @@ public class MainGUI extends javax.swing.JFrame {
                             .addComponent(InfoSerialTB1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
-                                .addGap(0, 33, Short.MAX_VALUE)))
+                                .addGap(0, 56, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -381,7 +424,7 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(InfoCountTB1)
                             .addComponent(jLabel10))
-                        .addGap(18, 51, Short.MAX_VALUE)
+                        .addGap(18, 75, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ChargeQuantitySP)))
@@ -430,15 +473,16 @@ public class MainGUI extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InfoSerialTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(InfoMeridTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(InfoCountTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ChargeQuantitySP, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ChargeQuantitySP, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(InfoSerialTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(InfoMeridTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(InfoCountTB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(RenewBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(AddChargeBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(AddChargeBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -477,31 +521,35 @@ public class MainGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Λίστα χρέωσης", jPanel2);
 
         ChargeCB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        ChargeCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Χρεωστικό 1", "Χρεωστικό 2" }));
+        ChargeCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "108", "ΠΡΩΤΟΚΟΛΛΟ" }));
         ChargeCB.setFocusable(false);
+        ChargeCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChargeCBActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setText("ΕΠΙΛΟΓΗ ΧΡΕΩΣΤΙΚΟΥ");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel17.setText("ΚΑΤΟΧΟΣ");
+        jLabel17.setText("ΠΑΡΑΔΙΔΩΝ");
 
-        ChargeHolderTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        ChargeHolderTB.setFocusable(false);
+        ChargeGiverTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel19.setText("<html>Διαλέξτε το είδος του χρεωστικού και συμπληρώστε τα αντίστοιχα πεδία για την ολοκλήρωση της χρέωσης.</html>");
@@ -515,6 +563,33 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setText("ΠΑΡΑΛΑΒΩΝ");
+
+        ChargeHolderTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel21.setText("ΗΜΕΡΟΜΗΝΙΑ");
+
+        ChargeDateTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel22.setText("ΕΠΙΚΕΦΑΛΙΔΑ");
+
+        ChargeTitleTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        ChargeTitleTB.setEnabled(false);
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel23.setText("ΔΙΑΤΑΓΗ");
+
+        ChargeOrderTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        ChargeOrderTB.setEnabled(false);
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setText("ΟΝΟΜΑ ΑΡΧΕΙΟΥ");
+
+        ChargeFilenameTB.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -522,20 +597,35 @@ public class MainGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(RenewBTN1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                    .addComponent(RenewBTN1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ChargeCB, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(ChargeHolderTB, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ChargeGiverTB, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ChargeCB, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel20))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(ChargeHolderTB)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addGap(69, 69, 69)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(ChargeOrderTB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ChargeTitleTB, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ChargeDateTB, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(ChargeFilenameTB, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 117, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -543,16 +633,40 @@ public class MainGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ChargeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ChargeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChargeGiverTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChargeTitleTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ChargeHolderTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ChargeHolderTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChargeOrderTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChargeDateTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChargeFilenameTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                 .addComponent(RenewBTN1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -574,6 +688,182 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ReturnFrame.setTitle("ΕΠΙΣΤΡΟΦΗ ΥΛΙΚΟΥ");
+        ReturnFrame.setResizable(false);
+
+        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel33.setText("ΑΡΙΘΜΟΣ ΜΕΡΙΔΑΣ");
+
+        jLabel34.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel34.setText("ΚΑΤΟΧΟΣ");
+
+        ReturnBTN.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        ReturnBTN.setText("ΕΠΙΣΤΡΟΦΗ");
+        ReturnBTN.setEnabled(false);
+        ReturnBTN.setFocusable(false);
+        ReturnBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReturnBTNActionPerformed(evt);
+            }
+        });
+
+        jLabel35.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel35.setText("ΠΑΡΑΤΗΡΗΣΕΙΣ");
+
+        InfoCountTB3.setEditable(false);
+        InfoCountTB3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoCountTB3.setFocusable(false);
+
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel36.setText("<html>Εισάγεται το barcode του υλικού προς επιστροφή στο πεδίο αριστερά και πατήστε Enter για να αναζητηθεί στην βάση.</html>");
+
+        InfoMeridTB3.setEditable(false);
+        InfoMeridTB3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoMeridTB3.setFocusable(false);
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel37.setText("ΠΟΣΟΤΗΤΑ");
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel38.setText("ΑΡΙΘΜΟΣ ΟΝΟΜΑΤΟΣ");
+
+        RenewBTN3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        RenewBTN3.setText("ΑΝΑΝΕΩΣΗ");
+        RenewBTN3.setFocusable(false);
+        RenewBTN3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RenewBTN3ActionPerformed(evt);
+            }
+        });
+
+        InfoObsTB3.setEditable(false);
+        InfoObsTB3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoObsTB3.setFocusable(false);
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel39.setText("ΠΕΡΙΓΡΑΦΗ");
+
+        InfoSerialTB3.setEditable(false);
+        InfoSerialTB3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoSerialTB3.setFocusable(false);
+
+        BarcodeScanTB2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        BarcodeScanTB2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        BarcodeScanTB2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        BarcodeScanTB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BarcodeScanTB2ActionPerformed(evt);
+            }
+        });
+        BarcodeScanTB2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BarcodeScanTB2KeyPressed(evt);
+            }
+        });
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel40.setText("ΜΟΝΑΔΑ ΜΕΤΡΗΣΗΣ");
+
+        InfoDescTA3.setEditable(false);
+        InfoDescTA3.setColumns(20);
+        InfoDescTA3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        InfoDescTA3.setRows(5);
+        InfoDescTA3.setFocusable(false);
+        jScrollPane6.setViewportView(InfoDescTA3);
+
+        ReturnHolderCB.setEnabled(false);
+        ReturnHolderCB.setFocusable(false);
+        ReturnHolderCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReturnHolderCBActionPerformed(evt);
+            }
+        });
+
+        ReturnCountTB.setEditable(false);
+
+        javax.swing.GroupLayout ReturnFrameLayout = new javax.swing.GroupLayout(ReturnFrame.getContentPane());
+        ReturnFrame.getContentPane().setLayout(ReturnFrameLayout);
+        ReturnFrameLayout.setHorizontalGroup(
+            ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReturnFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ReturnBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReturnFrameLayout.createSequentialGroup()
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(InfoSerialTB3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReturnFrameLayout.createSequentialGroup()
+                                .addComponent(jLabel38)
+                                .addGap(0, 28, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(InfoMeridTB3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(InfoCountTB3)
+                            .addComponent(jLabel40))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ReturnCountTB, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37)))
+                    .addComponent(jScrollPane6)
+                    .addGroup(ReturnFrameLayout.createSequentialGroup()
+                        .addComponent(BarcodeScanTB2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(RenewBTN3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(ReturnFrameLayout.createSequentialGroup()
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InfoObsTB3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel39)
+                            .addComponent(jLabel35))
+                        .addGap(18, 18, 18)
+                        .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ReturnFrameLayout.createSequentialGroup()
+                                .addComponent(jLabel34)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(ReturnHolderCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        ReturnFrameLayout.setVerticalGroup(
+            ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReturnFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BarcodeScanTB2)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(jLabel34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InfoObsTB3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ReturnHolderCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(jLabel33)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ReturnFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InfoSerialTB3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(InfoMeridTB3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(InfoCountTB3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ReturnCountTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(RenewBTN3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ReturnBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -611,7 +901,7 @@ public class MainGUI extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(MaterialsTBL);
 
-        AddMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
+        AddMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/add.png"))); // NOI18N
         AddMenu.setText("ΠΡΟΣΘΗΚΗ");
         AddMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -620,7 +910,7 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(AddMenu);
 
-        RemoveMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/remove.png"))); // NOI18N
+        RemoveMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/remove.png"))); // NOI18N
         RemoveMenu.setText("ΑΦΑΙΡΕΣΗ");
         RemoveMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -629,7 +919,7 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(RemoveMenu);
 
-        ChargeMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/charge.png"))); // NOI18N
+        ChargeMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/charge.png"))); // NOI18N
         ChargeMenu.setText("ΧΡΕΩΣΗ");
         ChargeMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -638,9 +928,14 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(ChargeMenu);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/return.png"))); // NOI18N
-        jMenu4.setText("ΕΠΙΣΤΡΟΦΗ");
-        MenuBar.add(jMenu4);
+        ReturnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/return.png"))); // NOI18N
+        ReturnMenu.setText("ΕΠΙΣΤΡΟΦΗ");
+        ReturnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ReturnMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(ReturnMenu);
 
         setJMenuBar(MenuBar);
 
@@ -805,7 +1100,8 @@ public class MainGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Η διαδικασία ολοκληρώθηκε επιτυχώς.", "ΑΦΑΙΡΕΣΗ ΥΛΙΚΟΥ", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_RemoveMenuMouseClicked
 
-    private void RenewBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenewBTNActionPerformed
+    private void renewChargeFrame1()
+    {
         BarcodeScanTB.setText("");
         BarcodeScanTB.setBackground(Color.WHITE);
         BarcodeScanTB.setEditable(true);
@@ -822,10 +1118,34 @@ public class MainGUI extends javax.swing.JFrame {
         ChargeQuantitySP.setValue(0);
         ChargeQuantitySP.setEnabled(false);
         AddChargeBTN.setEnabled(false);
+    }
+    
+    private void renewChargeFrame2()
+    {
+        ChargeCB.setSelectedIndex(0);
+        
+        ChargeHolderTB.setText("");
+        ChargeGiverTB.setText("");
+        ChargeTitleTB.setText("");
+        ChargeTitleTB.setEnabled(false);
+        ChargeOrderTB.setText("");
+        ChargeOrderTB.setEnabled(false);
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd_MM_yy");  
+        
+        LocalDateTime now = LocalDateTime.now();  
+        ChargeDateTB.setText(dtf.format(now));
+        
+        ChargeFilenameTB.setText("108-" + dtf2.format(now) + "-" + r.nextInt(999) + 1);
+    }
+    
+    private void RenewBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenewBTNActionPerformed
+        renewChargeFrame1();
     }//GEN-LAST:event_RenewBTNActionPerformed
 
     private void ChargeMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChargeMenuMouseClicked
-        initChargeFram();
+        initChargeFrame();
     }//GEN-LAST:event_ChargeMenuMouseClicked
 
     private void BarcodeScanTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BarcodeScanTBActionPerformed
@@ -835,18 +1155,18 @@ public class MainGUI extends javax.swing.JFrame {
             BarcodeScanTB.setEditable(false);
             BarcodeScanTB.setFocusable(false);
             
-            material = dbm.Select("*", "materials", "barcode = " + BarcodeScanTB.getText() + " AND io = 'ΑΠΟΘΗΚΗ'").get(0);
+            charge_material = dbm.Select("*", "materials", "barcode = " + BarcodeScanTB.getText() + " AND io = 'ΑΠΟΘΗΚΗ'").get(0);
             
-            System.out.println(Arrays.toString(material));
+            System.out.println(Arrays.toString(charge_material));
             
-            InfoDescTA1.setText(material[3].toString());
-            InfoObsTB1.setText(material[7].toString());
-            InfoHolderTB1.setText(material[6].toString());
-            InfoSerialTB1.setText(material[2].toString());
-            InfoMeridTB1.setText(material[1].toString());
-            InfoCountTB1.setText(material[4].toString());
+            InfoDescTA1.setText(charge_material[3].toString());
+            InfoObsTB1.setText(charge_material[7].toString());
+            InfoHolderTB1.setText(charge_material[6].toString());
+            InfoSerialTB1.setText(charge_material[2].toString());
+            InfoMeridTB1.setText(charge_material[1].toString());
+            InfoCountTB1.setText(charge_material[4].toString());
             
-            int quantity = Integer.parseInt(material[5].toString());
+            int quantity = Integer.parseInt(charge_material[5].toString());
             
             ChargeQuantitySP.setValue(quantity);
             
@@ -868,9 +1188,11 @@ public class MainGUI extends javax.swing.JFrame {
     private void AddChargeBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChargeBTNActionPerformed
         if(!alreadyInChargeTable())
         {
-            ((DefaultTableModel) ChargeTable.getModel()).addRow(new Object[]{material[3], "", ChargeQuantitySP.getValue()});
+            ((DefaultTableModel) ChargeTable.getModel()).addRow(new Object[]{charge_material[3], "", ChargeQuantitySP.getValue()});
+            charge_materials.add(charge_material);
             resizeJTable(ChargeTable);
         }
+        else JOptionPane.showMessageDialog(this, "Το υλικό έχει ήδη προστεθεί στον παρών πίνακα χρεώσεων", "ΧΡΕΩΣΗ ΥΛΙΚΩΝ", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_AddChargeBTNActionPerformed
 
     private void BarcodeScanTBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarcodeScanTBKeyPressed
@@ -878,8 +1200,103 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_BarcodeScanTBKeyPressed
 
     private void RenewBTN1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenewBTN1ActionPerformed
-        // TODO add your handling code here:
+        for (int i = 0; i < charge_materials.size(); i++)
+        {
+            dbm.Update("materials", "posotita", "posotita - " + ChargeTable.getModel().getValueAt(i, 2), "barcode = " + charge_materials.get(i)[8] + " AND io = 'ΑΠΟΘΗΚΗ'");
+            
+            String values = 
+                charge_materials.get(i)[0] + ", " + 
+                charge_materials.get(i)[1] + ", " +
+                "'" + charge_materials.get(i)[2] + "', " +
+                "'" + charge_materials.get(i)[3] + "', " +
+                "'" + charge_materials.get(i)[4] + "', " +
+                ChargeTable.getModel().getValueAt(i, 2) + ", " +
+                "'" + ChargeHolderTB.getText() + "', " +
+                "'" + ChargeTable.getModel().getValueAt(i, 1) + "', " +
+                "'" + charge_materials.get(i)[8] + "'";
+            
+            dbm.Insert("materials", values);
+            
+            refreshJTable();
+            ChargeFrame.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Η χρέωση των υλικών ολοκληρώθηκε επιτυχώς.", "ΧΡΕΩΣΗ ΥΛΙΚΩΝ", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_RenewBTN1ActionPerformed
+
+    private void ChargeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChargeCBActionPerformed
+        if(ChargeCB.getSelectedItem().toString().equals("108"))
+        {
+            ChargeTitleTB.setEnabled(false);
+            ChargeOrderTB.setEnabled(false);
+        }
+        else
+        {
+            ChargeTitleTB.setEnabled(true);
+            ChargeOrderTB.setEnabled(true);
+        }
+        
+    }//GEN-LAST:event_ChargeCBActionPerformed
+
+    private void ReturnBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnBTNActionPerformed
+        dbm.Update("materials", "posotita", "posotita + " + ReturnCountTB.getText(), "barcode = " + BarcodeScanTB2.getText() + " AND io = 'ΑΠΟΘΗΚΗ'");
+        dbm.Delete("materials", "barcode = " + BarcodeScanTB2.getText() + " AND io = '" + ReturnHolderCB.getSelectedItem().toString() + "'");
+        
+        ReturnFrame.setVisible(false);    
+        refreshJTable();
+        
+        JOptionPane.showMessageDialog(this, "Το υλικό επιστράφηκε στην βάση με επιτυχία.", "ΕΠΙΣΤΡΟΦΗ ΥΛΙΚΟΥ", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_ReturnBTNActionPerformed
+
+    private void RenewBTN3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenewBTN3ActionPerformed
+        initReturnFrame();
+    }//GEN-LAST:event_RenewBTN3ActionPerformed
+
+    private void BarcodeScanTB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BarcodeScanTB2ActionPerformed
+        if((int)dbm.Function("COUNT", "materials", "*", "barcode = " + BarcodeScanTB2.getText() + " AND io != 'ΑΠΟΘΗΚΗ'") > 0)
+        {
+            BarcodeScanTB2.setBackground(Color.GREEN);
+            BarcodeScanTB2.setEditable(false);
+            BarcodeScanTB2.setFocusable(false);
+            
+            return_materials = dbm.Select("*", "materials", "barcode = " + BarcodeScanTB2.getText() + " AND io != 'ΑΠΟΘΗΚΗ'");
+            
+            for (int i = 0; i < return_materials.size(); i++) ReturnHolderCB.addItem(return_materials.get(i)[6].toString());
+            
+            InfoDescTA3.setText(return_materials.get(0)[3].toString());
+            InfoObsTB3.setText(return_materials.get(0)[7].toString());
+            InfoSerialTB3.setText(return_materials.get(0)[2].toString());
+            InfoMeridTB3.setText(return_materials.get(0)[1].toString());
+            InfoCountTB3.setText(return_materials.get(0)[4].toString());
+            
+            ReturnCountTB.setText(return_materials.get(0)[5].toString());
+            
+            ReturnHolderCB.setEnabled(true);
+            ReturnBTN.setEnabled(true);
+        }
+        else
+        {
+            BarcodeScanTB2.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_BarcodeScanTB2ActionPerformed
+
+    private void BarcodeScanTB2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarcodeScanTB2KeyPressed
+        BarcodeScanTB2.setBackground(Color.WHITE);
+    }//GEN-LAST:event_BarcodeScanTB2KeyPressed
+
+    private void ReturnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReturnMenuMouseClicked
+        initReturnFrame();
+    }//GEN-LAST:event_ReturnMenuMouseClicked
+
+    private void ReturnHolderCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnHolderCBActionPerformed
+        InfoObsTB3.setText(return_materials.get(ReturnHolderCB.getSelectedIndex())[7].toString());
+        ReturnCountTB.setText(return_materials.get(ReturnHolderCB.getSelectedIndex())[5].toString());
+    }//GEN-LAST:event_ReturnHolderCBActionPerformed
+
+    private void PrinterBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrinterBTNActionPerformed
+        new Thread(new PrintActionListener((new Barcode(BarcodeLBL.getText())).getBimg())).start();
+        
+ 
+    }//GEN-LAST:event_PrinterBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -926,24 +1343,57 @@ public class MainGUI extends javax.swing.JFrame {
  
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) MaterialsTBL.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
-        
-
     }
     
     private void initInfoFrame()
     {
-        InfoFrame.setPreferredSize(new Dimension(500, 427));
+        InfoFrame.setPreferredSize(new Dimension(500, 450));
         InfoFrame.pack();
         InfoFrame.setLocationRelativeTo(null);
         InfoFrame.setVisible(true);
     }
     
-    private void initChargeFram()
+    private void initChargeFrame()
     {
-        ChargeFrame.setPreferredSize(new Dimension(580, 500));
+        renewChargeFrame1();
+        renewChargeFrame2();
+        
+        ((DefaultTableModel) ChargeTable.getModel()).setRowCount(0);
+        charge_materials = new ArrayList<Object[]>();      
+        
+        ChargeFrame.setPreferredSize(new Dimension(625, 518));
         ChargeFrame.pack();
         ChargeFrame.setLocationRelativeTo(null);
         ChargeFrame.setVisible(true);
+    }
+    
+    private void initReturnFrame()
+    {
+        BarcodeScanTB2.setText("");
+        BarcodeScanTB2.setBackground(Color.WHITE);
+        BarcodeScanTB2.setEditable(true);
+        BarcodeScanTB2.setFocusable(true);
+        BarcodeScanTB2.requestFocus();
+        
+        InfoDescTA3.setText("");
+        InfoObsTB3.setText("");
+        
+        ReturnHolderCB.setModel(new DefaultComboBoxModel(new String[]{}));
+        
+        ReturnHolderCB.setEnabled(false);
+        InfoSerialTB3.setText("");
+        InfoMeridTB3.setText("");
+        InfoCountTB3.setText("");
+        ReturnCountTB.setText("");
+        
+        return_materials = new ArrayList<Object[]>();
+        
+        ReturnBTN.setEnabled(false);
+        
+        ReturnFrame.setPreferredSize(new Dimension(625, 450));
+        ReturnFrame.pack();
+        ReturnFrame.setLocationRelativeTo(null);
+        ReturnFrame.setVisible(true);
     }
     
     private void refreshJTable()
@@ -952,6 +1402,7 @@ public class MainGUI extends javax.swing.JFrame {
         
         Comparator<Object[]> comparator = new Comparator<Object[]>() 
         {
+            @Override
             public int compare(Object[] o1, Object[] o2) 
             {
                 int aa1 = Integer.parseInt(o1[0].toString());
@@ -1014,46 +1465,67 @@ public class MainGUI extends javax.swing.JFrame {
     private boolean alreadyInChargeTable()
     {
         for (int i = 0; i < ChargeTable.getRowCount(); i++) 
-            if (material[3].toString().equals(ChargeTable.getModel().getValueAt(i, 0).toString())) return true;
+            if (charge_material[3].toString().equals(ChargeTable.getModel().getValueAt(i, 0).toString())) return true;
         
         return false;
     }
 
+            
+    private Random r = new Random();
     private static DB_Manager dbm = new DB_Manager();
-    private static Object[] material;
+    private static Object[] charge_material;
+    private static ArrayList<Object[]> charge_materials = new ArrayList<Object[]>();
+    private static ArrayList<Object[]> return_materials = new ArrayList<Object[]>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChargeBTN;
     private javax.swing.JMenu AddMenu;
     private javax.swing.JLabel BarcodeLBL;
     private javax.swing.JTextField BarcodeScanTB;
+    private javax.swing.JTextField BarcodeScanTB2;
     private javax.swing.JTextField BarcodeTB;
     private javax.swing.JComboBox<String> ChargeCB;
+    private javax.swing.JTextField ChargeDateTB;
+    private javax.swing.JTextField ChargeFilenameTB;
     private javax.swing.JFrame ChargeFrame;
+    private javax.swing.JTextField ChargeGiverTB;
     private javax.swing.JTextField ChargeHolderTB;
     private javax.swing.JMenu ChargeMenu;
+    private javax.swing.JTextField ChargeOrderTB;
     private javax.swing.JSpinner ChargeQuantitySP;
     private javax.swing.JTable ChargeTable;
+    private javax.swing.JTextField ChargeTitleTB;
     private javax.swing.JButton InfoButton;
     private javax.swing.JSpinner InfoCountSP;
     private javax.swing.JTextField InfoCountTB;
     private javax.swing.JTextField InfoCountTB1;
+    private javax.swing.JTextField InfoCountTB3;
     private javax.swing.JTextArea InfoDescTA;
     private javax.swing.JTextArea InfoDescTA1;
+    private javax.swing.JTextArea InfoDescTA3;
     private javax.swing.JFrame InfoFrame;
     private javax.swing.JTextField InfoHolderTB;
     private javax.swing.JTextField InfoHolderTB1;
     private javax.swing.JTextField InfoMeridTB;
     private javax.swing.JTextField InfoMeridTB1;
+    private javax.swing.JTextField InfoMeridTB3;
     private javax.swing.JTextField InfoObsTB;
     private javax.swing.JTextField InfoObsTB1;
+    private javax.swing.JTextField InfoObsTB3;
     private javax.swing.JTextField InfoSerialTB;
     private javax.swing.JTextField InfoSerialTB1;
+    private javax.swing.JTextField InfoSerialTB3;
     private javax.swing.JTable MaterialsTBL;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JButton PrinterBTN;
     private javax.swing.JMenu RemoveMenu;
     private javax.swing.JButton RenewBTN;
     private javax.swing.JButton RenewBTN1;
+    private javax.swing.JButton RenewBTN3;
+    private javax.swing.JButton ReturnBTN;
+    private javax.swing.JTextField ReturnCountTB;
+    private javax.swing.JFrame ReturnFrame;
+    private javax.swing.JComboBox<String> ReturnHolderCB;
+    private javax.swing.JMenu ReturnMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1066,14 +1538,26 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1081,6 +1565,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

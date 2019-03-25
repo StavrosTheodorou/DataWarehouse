@@ -42,6 +42,7 @@ public class Barcode
         bc.setCode(digits);
         bc.setBarHeight(50);
         bimg = drawTextOnImage("* " + digits + " *", toBufferedImage(bc.createAwtImage(Color.BLACK, Color.WHITE)));
+        bimg = drawTextOnImage("490 ΤΒΔ", bimg);
     }
     
     private BufferedImage drawTextOnImage(String text, BufferedImage image) 
@@ -81,6 +82,8 @@ public class Barcode
     }
     
     public Image getImg() { return bimg; }
+    
+    public BufferedImage getBimg() { return bimg; }
     
     @Override
     public String toString()
