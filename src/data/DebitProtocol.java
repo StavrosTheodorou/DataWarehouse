@@ -1,5 +1,6 @@
 package data;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +38,9 @@ public class DebitProtocol
         
         try
         {
-            doc = new XWPFDocument(new FileInputStream("src/rsc/protocol.docx"));
+            ClassLoader classLoader = getClass().getClassLoader();
+            
+            doc = new XWPFDocument(classLoader.getResourceAsStream("rsc/protocol.docx"));
         }
         catch(Exception e)
         {

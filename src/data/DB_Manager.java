@@ -23,7 +23,7 @@ public class DB_Manager
         {
             Class.forName("org.sqlite.JDBC");
             
-            Connection con_attempt = DriverManager.getConnection("jdbc:sqlite:4901le.db");
+            Connection con_attempt = DriverManager.getConnection("jdbc:sqlite:./4901le.db");
             
             System.out.println("Successful connection to DB"); 
             
