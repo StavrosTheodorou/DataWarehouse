@@ -29,6 +29,10 @@ public class PrintActionListener implements Runnable {
         }
     }
 
+    public Runnable start() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public class ImagePrintable implements Printable {
 
         private double x, y, width;

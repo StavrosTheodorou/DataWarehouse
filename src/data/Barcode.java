@@ -41,7 +41,7 @@ public class Barcode
         Barcode39 bc = new Barcode39();
         bc.setCode(digits);
         bc.setBarHeight(50);
-        bimg = drawTextOnImage("* " + digits + " *", toBufferedImage(bc.createAwtImage(Color.BLACK, Color.WHITE)));
+        bimg = drawTextOnImage(digits, toBufferedImage(bc.createAwtImage(Color.BLACK, Color.WHITE)));
         bimg = drawTextOnImage("490 ΤΒΔ", bimg);
     }
     

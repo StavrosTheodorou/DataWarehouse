@@ -14,10 +14,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
@@ -1438,9 +1440,19 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ReturnHolderCBActionPerformed
 
     private void PrinterBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrinterBTNActionPerformed
-        new Thread(new PrintActionListener((new Barcode(BarcodeLBL.getText())).getBimg())).start();
+        ImageIcon imageIcon = (ImageIcon)BarcodeLBL.getIcon();
         
- 
+        Image image = imageIcon.getImage();        
+        BufferedImage buffered = new BufferedImage(
+            imageIcon.getIconWidth(),
+            imageIcon.getIconHeight(),
+            BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g = buffered.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        
+        new Thread(new PrintActionListener(buffered)).start();
     }//GEN-LAST:event_PrinterBTNActionPerformed
 
     /**
