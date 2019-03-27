@@ -10,24 +10,34 @@ import data.DB_Manager;
 import data.Debit108;
 import data.DebitProtocol;
 import data.PrintActionListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
@@ -50,11 +60,11 @@ public class MainGUI extends javax.swing.JFrame {
     {
         try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e) { e.printStackTrace(); }
         initComponents();
+        
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
-        initJTable();
-        refreshJTable();
+
+        initLoginPage();
     }
 
     /**
@@ -155,7 +165,7 @@ public class MainGUI extends javax.swing.JFrame {
         InfoDescTA3 = new javax.swing.JTextArea();
         ReturnHolderCB = new javax.swing.JComboBox<>();
         ReturnCountTB = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        MaterialsSCP = new javax.swing.JScrollPane();
         MaterialsTBL = new javax.swing.JTable();
         MenuBar = new javax.swing.JMenuBar();
         AddMenu = new javax.swing.JMenu();
@@ -433,7 +443,7 @@ public class MainGUI extends javax.swing.JFrame {
                             .addComponent(InfoSerialTB1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
-                                .addGap(0, 98, Short.MAX_VALUE)))
+                                .addGap(0, 120, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -462,7 +472,7 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
-                                .addGap(0, 255, Short.MAX_VALUE))
+                                .addGap(0, 249, Short.MAX_VALUE))
                             .addComponent(InfoHolderTB1))))
                 .addContainerGap())
         );
@@ -545,7 +555,7 @@ public class MainGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -644,7 +654,7 @@ public class MainGUI extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(ChargeFromLBL)
                         .addGap(276, 276, 276)
-                        .addComponent(ChargeToLBL, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE))
+                        .addComponent(ChargeToLBL, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -967,7 +977,7 @@ public class MainGUI extends javax.swing.JFrame {
                 MaterialsTBLMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(MaterialsTBL);
+        MaterialsSCP.setViewportView(MaterialsTBL);
 
         AddMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/add.png"))); // NOI18N
         AddMenu.setText("ΠΡΟΣΘΗΚΗ");
@@ -1013,14 +1023,14 @@ public class MainGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                .addComponent(MaterialsSCP, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                .addComponent(MaterialsSCP, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1496,6 +1506,72 @@ public class MainGUI extends javax.swing.JFrame {
         });
     }
     
+    private void initLoginPage()
+    {
+        MenuBar.setVisible(false);
+        
+        getContentPane().remove(0);
+        
+        BackgroundPanel backgroundPNL = new BackgroundPanel();
+        try { backgroundPNL.setBackground(ImageIO.read(getClass().getClassLoader().getResourceAsStream("rsc/bg.jpg"))); } catch(Exception e) { System.out.println("Error setting background..."); }
+        
+        setContentPane(backgroundPNL);
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+
+        JLabel passwordLabel = new JLabel("ΚΩΔΙΚΟΣ ΠΡΟΣΒΑΣΗΣ");
+        add(passwordLabel, gbc);
+        
+        add(new JLabel(" "), gbc);
+
+        JPasswordField passwordText = new JPasswordField(20);
+        add(passwordText, gbc);
+        
+        add(new JLabel(" "), gbc);
+
+        JButton loginButton = new JButton("ΕΙΣΟΔΟΣ");
+        loginButton.setFocusable(false);
+        
+        loginButton.addActionListener(new ActionListener() 
+        { 
+            public void actionPerformed(ActionEvent e) 
+            { 
+                JFrame frame = (JFrame)((JButton)e.getSource()).getParent().getParent().getParent().getParent();
+                
+                if (passwordText.getText().equals(pass))
+                {
+                    frame.setLayout(new BorderLayout());
+                    frame.getContentPane().removeAll();
+                    frame.getContentPane().add(MaterialsSCP);
+                    MenuBar.setVisible(true);
+
+                    initJTable();
+                    refreshJTable();
+                }
+                else
+                {
+                    JPanel panel = (JPanel)((JButton)e.getSource()).getParent();
+                    
+                    if (panel.getComponentCount() == 5)
+                    {
+                        frame.add(new JLabel(" "), gbc);
+                        JLabel ErrorLBL = new JLabel("ΛΑΘΟΣ ΚΩΔΙΚΟΣ");
+                        ErrorLBL.setForeground(Color.RED);
+                        
+                        frame.add(ErrorLBL, gbc);
+                    }
+                }
+                
+                frame.pack();
+            } 
+}       );
+        
+        add(loginButton, gbc);
+        
+        pack();
+    }
+    
     private void initJTable()
     {                
         MaterialsTBL.setRowHeight(60);
@@ -1630,12 +1706,12 @@ public class MainGUI extends javax.swing.JFrame {
         return false;
     }
 
-            
+    private String pass = "490";
     private Random r = new Random();
-    private static DB_Manager dbm = new DB_Manager();
-    private static Object[] charge_material;
-    private static ArrayList<Object[]> charge_materials = new ArrayList<Object[]>();
-    private static ArrayList<Object[]> return_materials = new ArrayList<Object[]>();
+    private DB_Manager dbm = new DB_Manager();
+    private Object[] charge_material;
+    private ArrayList<Object[]> charge_materials = new ArrayList<Object[]>();
+    private ArrayList<Object[]> return_materials = new ArrayList<Object[]>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddChargeBTN;
     private javax.swing.JMenu AddMenu;
@@ -1680,6 +1756,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JTextField InfoSerialTB;
     private javax.swing.JTextField InfoSerialTB1;
     private javax.swing.JTextField InfoSerialTB3;
+    private javax.swing.JScrollPane MaterialsSCP;
     private javax.swing.JTable MaterialsTBL;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JButton PrinterBTN;
@@ -1729,7 +1806,6 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;

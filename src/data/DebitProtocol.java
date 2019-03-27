@@ -37,10 +37,8 @@ public class DebitProtocol
         convertDate();
         
         try
-        {
-            ClassLoader classLoader = getClass().getClassLoader();
-            
-            doc = new XWPFDocument(classLoader.getResourceAsStream("rsc/protocol.docx"));
+        {            
+            doc = new XWPFDocument(getClass().getClassLoader().getResourceAsStream("rsc/protocol.docx"));
         }
         catch(Exception e)
         {

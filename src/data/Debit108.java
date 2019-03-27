@@ -31,10 +31,8 @@ public class Debit108
         this.charge_materials = charge_materials;
         
         try
-        {
-            ClassLoader classLoader = getClass().getClassLoader();
-            
-            doc = new XWPFDocument(classLoader.getResourceAsStream("rsc/108.docx"));
+        {            
+            doc = new XWPFDocument(getClass().getClassLoader().getResourceAsStream("rsc/108.docx"));
         }
         catch(Exception e)
         {
