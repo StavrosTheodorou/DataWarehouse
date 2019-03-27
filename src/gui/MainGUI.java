@@ -13,6 +13,7 @@ import data.PrintActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -33,6 +34,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +44,7 @@ import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -172,6 +175,7 @@ public class MainGUI extends javax.swing.JFrame {
         RemoveMenu = new javax.swing.JMenu();
         ChargeMenu = new javax.swing.JMenu();
         ReturnMenu = new javax.swing.JMenu();
+        PrintMenu = new javax.swing.JMenu();
 
         InfoFrame.setResizable(false);
 
@@ -1015,6 +1019,15 @@ public class MainGUI extends javax.swing.JFrame {
         });
         MenuBar.add(ReturnMenu);
 
+        PrintMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/print_small.png"))); // NOI18N
+        PrintMenu.setText("ΕΚΤΥΠΩΣΗ");
+        PrintMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PrintMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(PrintMenu);
+
         setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1470,6 +1483,36 @@ public class MainGUI extends javax.swing.JFrame {
         new Thread(new PrintActionListener(buffered)).start();
     }//GEN-LAST:event_PrinterBTNActionPerformed
 
+    private void PrintMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PrintMenuMouseClicked
+        final JFileChooser fc = new JFileChooser();
+        
+        fc.setCurrentDirectory(new File("./"));
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(new FileFilter()
+        {
+            @Override
+            public boolean accept(File file)
+            {
+               return file.getName().toUpperCase().endsWith(".DOCX");
+            }
+
+            @Override
+            public String getDescription()
+            {
+               return "Αρχεία Microsoft Word .docx";
+            }
+        });
+
+        int returnVal = fc.showOpenDialog(this);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            try { Desktop.getDesktop().print(new File(fc.getSelectedFile().getAbsolutePath())); }
+            catch (Exception e) { System.out.println("Error printing docx file..."); }
+        }
+    }//GEN-LAST:event_PrintMenuMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1759,6 +1802,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane MaterialsSCP;
     private javax.swing.JTable MaterialsTBL;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenu PrintMenu;
     private javax.swing.JButton PrinterBTN;
     private javax.swing.JMenu RemoveMenu;
     private javax.swing.JButton RenewBTN;
