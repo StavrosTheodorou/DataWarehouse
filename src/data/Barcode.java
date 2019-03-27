@@ -41,8 +41,8 @@ public class Barcode
         Barcode39 bc = new Barcode39();
         bc.setCode(digits);
         bc.setBarHeight(50);
-        bimg = drawTextOnImage(digits, toBufferedImage(bc.createAwtImage(Color.BLACK, Color.WHITE)));
-        bimg = drawTextOnImage("490 ΤΒΔ", bimg);
+        bimg = drawTextOnImage('*' + digits + '*', toBufferedImage(bc.createAwtImage(Color.BLACK, Color.WHITE)));
+        bimg = drawTextOnImage("490 ΤΔΒ", bimg);
     }
     
     private BufferedImage drawTextOnImage(String text, BufferedImage image) 
@@ -56,7 +56,7 @@ public class Barcode
         g2d.drawImage(image, 0, 0, null);
 
         g2d.setColor(Color.BLACK);
-        g2d.setFont(new Font("Calibri", Font.BOLD, 20));
+        g2d.setFont(new Font("Calibri", Font.BOLD, 18));
         FontMetrics fm = g2d.getFontMetrics();
         int textWidth = fm.stringWidth(text);
 

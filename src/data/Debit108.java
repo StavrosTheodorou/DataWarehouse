@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -54,6 +55,24 @@ public class Debit108
         
         XWPFTableRow tableRow = table.getRow(0);
         tableRow.getCell(0).setParagraph(paragraph);
+        paragraph.removeRun(0);
+    }
+    
+    private void writeDate()
+    {
+        XWPFTable table = doc.getTableArray(2);
+        
+        XWPFParagraph paragraph = doc.createParagraph();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        
+        XWPFRun paragraphRun = paragraph.createRun();
+
+        paragraphRun.setFontSize(6);
+        paragraphRun.setFontFamily("Calibri");
+        paragraphRun.setText(Date);
+        
+        XWPFTableRow tableRow = table.getRow(3);
+        tableRow.getCell(6).setParagraph(paragraph);
         paragraph.removeRun(0);
     }
     
@@ -109,14 +128,14 @@ public class Debit108
            
             aa++;
             
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 6; j++)
             {
                 XWPFParagraph par = doc.createParagraph();
                 XWPFRun parRun = par.createRun();
                 
                 parRun.setFontSize(7);
                 parRun.setFontFamily("Arial");
-                parRun.setText(charge_materials.get(i)[j + 1].toString());
+                parRun.setText(charge_materials.get(i)[(j < 5) ? j + 1 : 5].toString());
                 
                 XWPFTableRow tRow = table.getRow(k);
                 tRow.getCell(j + 1).setParagraph(par);
@@ -173,7 +192,7 @@ public class Debit108
     {
         writeField(From, 0);
         writeField(To, 1);
-        writeField(Date, 2);
+        writeDate();
         writeTable();
     }
     
