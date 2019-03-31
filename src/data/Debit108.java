@@ -1,10 +1,10 @@
 package data;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.apache.poi.xwpf.usermodel.BodyElementType;
+import org.apache.poi.xwpf.usermodel.IBodyElement;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -186,12 +186,32 @@ public class Debit108
     
     }
     
+    private void removeEmptyLines()
+    {
+        int last_element_index = doc.getBodyElements().size() - 1;
+        
+        do
+        {
+            IBodyElement be = doc.getBodyElements().get(last_element_index);
+            
+            if (be.getElementType() != BodyElementType.PARAGRAPH) break;
+            
+            XWPFParagraph p = (XWPFParagraph) be;
+            
+            if (!p.getText().equals("")) break;
+            
+            doc.removeBodyElement(last_element_index--);
+        }
+        while(true);
+    }   
+    
     private void writeAll()
     {
         writeField(From, 0);
         writeField(To, 1);
         writeDate();
         writeTable();
+        removeEmptyLines();
     }
     
     public void createDocx()

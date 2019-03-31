@@ -1404,7 +1404,6 @@ public class MainGUI extends javax.swing.JFrame {
             ChargePresidentTB.setEnabled(true);
             ChargePresidentTB.setText("");
             ChargeOrderTB.setEnabled(true);
-            ChargeOrderTB.setText("");
             ChargeMember1TB.setEnabled(true);
             ChargeMember1TB.setText("");
             ChargeMember2TB.setEnabled(true);
@@ -1415,6 +1414,7 @@ public class MainGUI extends javax.swing.JFrame {
         
             LocalDateTime now = LocalDateTime.now();  
             ChargeDateTB.setText(dtf.format(now));
+            ChargeOrderTB.setText("ΗΔΜ " + dtf.format(now));
 
             ChargeFilenameTB.setText("Protocol-" + dtf2.format(now) + "-" + r.nextInt(99999999) + 1);
         }

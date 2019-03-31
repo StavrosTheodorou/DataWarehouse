@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import org.apache.poi.xwpf.usermodel.BodyElementType;
+import org.apache.poi.xwpf.usermodel.IBodyElement;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -201,6 +203,25 @@ public class DebitProtocol
         }
     }
     
+    private void removeEmptyLines()
+    {
+        int last_element_index = doc.getBodyElements().size() - 1;
+        
+        do
+        {
+            IBodyElement be = doc.getBodyElements().get(last_element_index);
+            
+            if (be.getElementType() != BodyElementType.PARAGRAPH) break;
+            
+            XWPFParagraph p = (XWPFParagraph) be;
+            
+            if (!p.getText().equals("")) break;
+            
+            doc.removeBodyElement(last_element_index--);
+        }
+        while(true);
+    }   
+    
     private void writeAll()
     {
         writeField(Date, 0);
@@ -209,6 +230,7 @@ public class DebitProtocol
         writeField(Member1, 3);
         writeField(Member2, 4);
         writeTable();
+        removeEmptyLines();
     }
     
     public void createDocx()
