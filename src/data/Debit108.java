@@ -47,7 +47,7 @@ public class Debit108
         XWPFParagraph paragraph = doc.createParagraph();
         XWPFRun paragraphRun = paragraph.createRun();
         
-        paragraphRun.setFontSize(12);
+        paragraphRun.setFontSize(7);
         paragraphRun.setFontFamily("Arial");
         paragraphRun.setText(field);
         

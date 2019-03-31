@@ -1517,7 +1517,7 @@ public class MainGUI extends javax.swing.JFrame {
         
         if(returnVal == JFileChooser.APPROVE_OPTION)
         {
-            try { Desktop.getDesktop().print(new File(fc.getSelectedFile().getAbsolutePath())); }
+            try { Desktop.getDesktop().open(new File(fc.getSelectedFile().getAbsolutePath())); }
             catch (Exception e) { System.out.println("Error printing docx file..."); }
         }
     }//GEN-LAST:event_PrintMenuMouseClicked
