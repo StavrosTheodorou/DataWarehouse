@@ -20,6 +20,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -63,11 +64,10 @@ public class MainGUI extends javax.swing.JFrame {
     {
         try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e) { e.printStackTrace(); }
         initComponents();
-        
-        setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         initLoginPage();
+        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -949,6 +949,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Data Warehouse");
+        setResizable(false);
 
         MaterialsTBL.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         MaterialsTBL.setModel(new javax.swing.table.DefaultTableModel(
@@ -1561,8 +1562,10 @@ public class MainGUI extends javax.swing.JFrame {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.insets = new Insets(100,850,-100,0);
 
         JLabel passwordLabel = new JLabel("ΚΩΔΙΚΟΣ ΠΡΟΣΒΑΣΗΣ");
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(passwordLabel, gbc);
         
         add(new JLabel(" "), gbc);
@@ -1587,7 +1590,8 @@ public class MainGUI extends javax.swing.JFrame {
                     frame.getContentPane().removeAll();
                     frame.getContentPane().add(MaterialsSCP);
                     MenuBar.setVisible(true);
-
+                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    
                     initJTable();
                     refreshJTable();
                 }
@@ -1605,7 +1609,7 @@ public class MainGUI extends javax.swing.JFrame {
                     }
                 }
                 
-                frame.pack();
+                frame.revalidate();
             } 
 }       );
         
