@@ -237,7 +237,9 @@ public class DebitProtocol
     {
         writeAll();
         
-        try (FileOutputStream out = new FileOutputStream(Filename + ".docx"))
+        new File("./ΧΡΕΩΣΤΙΚΑ/ΠΡΩΤΟΚΟΛΛΟ").mkdirs();
+        
+        try (FileOutputStream out = new FileOutputStream("./ΧΡΕΩΣΤΙΚΑ/ΠΡΩΤΟΚΟΛΛΟ/" + Filename + ".docx"))
         {
             doc.write(out);
         }

@@ -134,6 +134,52 @@ public class DB_Manager
         return selectList;
     }
     
+    public ArrayList<Object[]> SelectDistinct(String columns, String table, String condition)
+    {
+        connect();
+        
+        ArrayList<Object[]> selectList = new ArrayList<Object[]>();
+        
+        Statement statement = null;
+        
+        String query =  "SELECT DISTINCT" + columns + " FROM " + table;
+        
+        query += condition.equals("") ? ";" : " WHERE " + condition + ";";
+        
+        try 
+        {
+            statement = con.createStatement();
+            
+            ResultSet set = statement.executeQuery(query);
+            
+            ResultSetMetaData rsmd = set.getMetaData();
+                
+            int columnsNumber = rsmd.getColumnCount();
+            
+            while (set.next()) 
+            {
+                Object[] row = new Object[columnsNumber];
+                
+                for (int i = 1; i <= columnsNumber; i++) row[i - 1] = set.getString(i);
+                
+                selectList.add(row);
+            }
+            
+            System.out.println("Query execution: " + query + " (SUCCESS)");
+            
+            statement.close();
+            set.close();
+        } 
+        catch(SQLException e ) 
+        { 
+            System.out.println("Query execution: " + query + " (FAILURE)");
+            e.printStackTrace();
+        } 
+        finally { disconnect(); }
+        
+        return selectList;
+    }
+    
     public void Update(String table, String column, String new_value, String condition)
     {
         connect();

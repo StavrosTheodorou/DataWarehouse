@@ -1,5 +1,6 @@
 package data;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -218,7 +219,9 @@ public class Debit108
     {
         writeAll();
         
-        try (FileOutputStream out = new FileOutputStream(Filename + ".docx"))
+        new File("./ΧΡΕΩΣΤΙΚΑ/108").mkdirs();
+        
+        try (FileOutputStream out = new FileOutputStream("./ΧΡΕΩΣΤΙΚΑ/108/" + Filename + ".docx"))
         {
             doc.write(out);
         }

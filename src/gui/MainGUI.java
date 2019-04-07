@@ -7,6 +7,7 @@ package gui;
 
 import data.Barcode;
 import data.DB_Manager;
+import data.DatabaseStatus;
 import data.Debit108;
 import data.DebitProtocol;
 import data.PrintActionListener;
@@ -14,7 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -168,6 +168,12 @@ public class MainGUI extends javax.swing.JFrame {
         InfoDescTA3 = new javax.swing.JTextArea();
         ReturnHolderCB = new javax.swing.JComboBox<>();
         ReturnCountTB = new javax.swing.JTextField();
+        PrintFrame = new javax.swing.JFrame();
+        jLabel20 = new javax.swing.JLabel();
+        PrintHolderCB = new javax.swing.JComboBox<>();
+        jLabel22 = new javax.swing.JLabel();
+        PrintFilenameTB = new javax.swing.JTextField();
+        PrintBTN = new javax.swing.JButton();
         MaterialsSCP = new javax.swing.JScrollPane();
         MaterialsTBL = new javax.swing.JTable();
         MenuBar = new javax.swing.JMenuBar();
@@ -176,6 +182,8 @@ public class MainGUI extends javax.swing.JFrame {
         ChargeMenu = new javax.swing.JMenu();
         ReturnMenu = new javax.swing.JMenu();
         PrintMenu = new javax.swing.JMenu();
+        PrintDebitMenu = new javax.swing.JMenuItem();
+        PrintStatusMenu = new javax.swing.JMenuItem();
 
         InfoFrame.setResizable(false);
 
@@ -346,11 +354,6 @@ public class MainGUI extends javax.swing.JFrame {
         InfoMeridTB1.setEditable(false);
         InfoMeridTB1.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         InfoMeridTB1.setFocusable(false);
-        InfoMeridTB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InfoMeridTB1ActionPerformed(evt);
-            }
-        });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("ΑΡ. ΟΝΟΜΑΣΤΙΚΟΥ");
@@ -775,7 +778,7 @@ public class MainGUI extends javax.swing.JFrame {
             ChargeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ChargeFrameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -956,6 +959,64 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        PrintFrame.setTitle("ΕΚΤΥΠΩΣΗ ΚΑΤΑΣΤΑΤΙΚΟΥ");
+        PrintFrame.setResizable(false);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setText("ΚΑΤΟΧΟΣ");
+
+        PrintHolderCB.setFocusable(false);
+        PrintHolderCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrintHolderCBActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel22.setText("ΟΝΟΜΑ ΚΑΤΑΣΤΑΤΙΚΟΥ");
+
+        PrintBTN.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        PrintBTN.setText("ΕΚΤΥΠΩΣΗ");
+        PrintBTN.setFocusable(false);
+        PrintBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrintBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PrintFrameLayout = new javax.swing.GroupLayout(PrintFrame.getContentPane());
+        PrintFrame.getContentPane().setLayout(PrintFrameLayout);
+        PrintFrameLayout.setHorizontalGroup(
+            PrintFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PrintFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PrintFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PrintHolderCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PrintBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PrintFilenameTB)
+                    .addGroup(PrintFrameLayout.createSequentialGroup()
+                        .addGroup(PrintFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel22))
+                        .addGap(0, 190, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PrintFrameLayout.setVerticalGroup(
+            PrintFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PrintFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PrintHolderCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PrintFilenameTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(PrintBTN, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Data Warehouse");
         setResizable(false);
@@ -1030,11 +1091,23 @@ public class MainGUI extends javax.swing.JFrame {
 
         PrintMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rsc/print_small.png"))); // NOI18N
         PrintMenu.setText("ΕΚΤΥΠΩΣΗ");
-        PrintMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PrintMenuMouseClicked(evt);
+
+        PrintDebitMenu.setText("ΧΡΕΩΣΤΙΚΟΥ");
+        PrintDebitMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrintDebitMenuActionPerformed(evt);
             }
         });
+        PrintMenu.add(PrintDebitMenu);
+
+        PrintStatusMenu.setText("ΚΑΤΑΣΤΑΤΙΚΟΥ ΒΑΣΗΣ");
+        PrintStatusMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrintStatusMenuActionPerformed(evt);
+            }
+        });
+        PrintMenu.add(PrintStatusMenu);
+
         MenuBar.add(PrintMenu);
 
         setJMenuBar(MenuBar);
@@ -1492,39 +1565,79 @@ public class MainGUI extends javax.swing.JFrame {
         new Thread(new PrintActionListener(buffered)).start();
     }//GEN-LAST:event_PrinterBTNActionPerformed
 
-    private void PrintMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PrintMenuMouseClicked
-        final JFileChooser fc = new JFileChooser();
+    private void PrintStatusMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintStatusMenuActionPerformed
+        DefaultComboBoxModel model = new DefaultComboBoxModel(new String[]{});
+        PrintHolderCB.setModel(model);
         
+        ArrayList<Object[]> materials = dbm.Select("*", "materials", "");
+            
+        PrintHolderCB.addItem("ΟΛΟΙ");
+        
+        for (int i = 0; i < materials.size(); i++) 
+        {
+            if(model.getIndexOf(materials.get(i)[6].toString()) == -1)
+                PrintHolderCB.addItem(materials.get(i)[6].toString());
+        }
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy");       
+        LocalDateTime now = LocalDateTime.now();  
+        
+        PrintFilenameTB.setText("ΚΑΤΑΣΤΙΚΟ-ΟΛΟΙ-" + dtf.format(now));
+        
+        initPrintFrame();
+    }//GEN-LAST:event_PrintStatusMenuActionPerformed
+
+    private void PrintHolderCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintHolderCBActionPerformed
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy");       
+        LocalDateTime now = LocalDateTime.now();  
+        
+        PrintFilenameTB.setText("ΚΑΤΑΣΤΙΚΟ-" + PrintHolderCB.getSelectedItem() +  "-" + dtf.format(now));
+    }//GEN-LAST:event_PrintHolderCBActionPerformed
+
+    private void PrintBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintBTNActionPerformed
+        DatabaseStatus dbs;
+        
+        if(PrintHolderCB.getSelectedItem().toString().equals("ΟΛΟΙ"))
+            dbs = new DatabaseStatus(PrintFilenameTB.getText(), dbm.Select("*", "materials", "aa > 0 ORDER BY aa"), PrintHolderCB.getSelectedItem().toString());
+        else
+            dbs = new DatabaseStatus(PrintFilenameTB.getText(), dbm.Select("*", "materials", "aa > 0 AND io == '" + PrintHolderCB.getSelectedItem().toString() + "' ORDER BY aa"), PrintHolderCB.getSelectedItem().toString());
+
+        dbs.createDocx();
+        
+        try { Desktop.getDesktop().open(new File("./ΚΑΤΑΣΤΑΤΙΚΑ/" + PrintFilenameTB.getText() + ".docx")); }
+        catch (Exception e) { System.out.println("Error printing status docx file..."); }
+    }//GEN-LAST:event_PrintBTNActionPerformed
+
+    private void PrintDebitMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintDebitMenuActionPerformed
+        final JFileChooser fc = new JFileChooser();
+
         fc.setCurrentDirectory(new File("./"));
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fc.setAcceptAllFileFilterUsed(false);
         fc.setFileFilter(new FileFilter()
-        {
-            @Override
-            public boolean accept(File file)
             {
-               return file.getName().toUpperCase().endsWith(".DOCX");
-            }
+                @Override
+                public boolean accept(File file)
+                {
+                    return file.getName().toUpperCase().endsWith(".DOCX") || file.isDirectory();
+                }
 
-            @Override
-            public String getDescription()
+                @Override
+                public String getDescription()
+                {
+                    return "Αρχεία Microsoft Word .docx";
+                }
+            });
+
+            int returnVal = fc.showOpenDialog(this);
+
+            if(returnVal == JFileChooser.APPROVE_OPTION)
             {
-               return "Αρχεία Microsoft Word .docx";
+                try { Desktop.getDesktop().open(new File(fc.getSelectedFile().getAbsolutePath())); }
+                catch (Exception e) { System.out.println("Error printing docx file..."); }
+
             }
-        });
-
-        int returnVal = fc.showOpenDialog(this);
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION)
-        {
-            try { Desktop.getDesktop().open(new File(fc.getSelectedFile().getAbsolutePath())); }
-            catch (Exception e) { System.out.println("Error printing docx file..."); }
-        }
-    }//GEN-LAST:event_PrintMenuMouseClicked
-
-    private void InfoMeridTB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoMeridTB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InfoMeridTB1ActionPerformed
+    }//GEN-LAST:event_PrintDebitMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1641,6 +1754,13 @@ public class MainGUI extends javax.swing.JFrame {
  
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) MaterialsTBL.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
+    }
+    
+    private void initPrintFrame()
+    {
+        PrintFrame.pack();
+        PrintFrame.setLocationRelativeTo(null);
+        PrintFrame.setVisible(true);
     }
     
     private void initInfoFrame()
@@ -1816,7 +1936,13 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane MaterialsSCP;
     private javax.swing.JTable MaterialsTBL;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JButton PrintBTN;
+    private javax.swing.JMenuItem PrintDebitMenu;
+    private javax.swing.JTextField PrintFilenameTB;
+    private javax.swing.JFrame PrintFrame;
+    private javax.swing.JComboBox<String> PrintHolderCB;
     private javax.swing.JMenu PrintMenu;
+    private javax.swing.JMenuItem PrintStatusMenu;
     private javax.swing.JButton PrinterBTN;
     private javax.swing.JMenu RemoveMenu;
     private javax.swing.JButton RenewBTN;
@@ -1838,7 +1964,9 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel27;
